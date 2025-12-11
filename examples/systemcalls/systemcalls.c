@@ -63,7 +63,6 @@ bool do_exec(int count, ...)
  *
 */
 
-    fflush(stdout);
     pid_t pid = fork();
     if (pid < 0) {
         perror("Fork failed");
@@ -134,7 +133,6 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
         return false;
     }
 
-    fflush(stdout);
     pid_t pid = fork();
     if (pid < 0) {
         perror("Fork failed");
