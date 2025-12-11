@@ -122,14 +122,16 @@ bool do_exec_redirect(const char *outputfile, int count, ...)
     }
 
     int fd = open(outputfile, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-    if(fd < 0) {
-        perror("open");
-        abort();
+    if (fd == -1) {
+        perror("open fail");
+        return false;
     }
 
-    if(dup2(fd, STDOUT_FILENO) < 0) {
-        perror("dup2");
-        abort();
+    int rep_dup = dup2(fd, STDOUT_FILENO);
+    if (rep_dup == -1) {
+        perror("dup2 fail");
+        close(fd);
+        return false;
     }
 
     fflush(stdout);
